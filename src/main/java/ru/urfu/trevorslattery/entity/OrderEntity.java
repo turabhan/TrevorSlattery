@@ -20,6 +20,7 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
 }

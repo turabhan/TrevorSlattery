@@ -16,8 +16,10 @@ public class OrderItemEntity {
     private Integer quantity;
     private BigDecimal price;
     @ManyToOne
+    @JoinColumn(name = "order_id")
     private OrderEntity order;
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
 }

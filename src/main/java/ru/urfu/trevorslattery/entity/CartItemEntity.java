@@ -14,8 +14,10 @@ public class CartItemEntity {
     private Integer quantity;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private UserEntity user;
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
 }
