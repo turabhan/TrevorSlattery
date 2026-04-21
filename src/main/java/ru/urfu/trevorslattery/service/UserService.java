@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final TransactionLogService transactionLogService;
 
     @Transactional
     public UserEntity saveUser(UserEntity user){
@@ -26,6 +27,14 @@ public class UserService {
         return userRepository.save(userToCreate);
     }
     public void  removeUser(Long id){
-        userRepository.deleteById(id);
+        UserEntity user = userRepository.findById(id).orElseThrow();
+
+        user.setDeleted(true);
+        user.setEmail(null);
+        user.setPassword(null);
+        userRepository.save(user);
+
+        transactionLogService.log("DELETE USER", id,
+                "User anonymized and soft deleted");
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final TransactionLogService transactionLogService;
 
     public List<OrderEntity> getOrders(){
         return orderRepository.findAll();

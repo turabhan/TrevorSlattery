@@ -1,33 +1,43 @@
 package ru.urfu.trevorslattery.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.urfu.trevorslattery.entity.ProductEntity;
 import ru.urfu.trevorslattery.service.ProductService;
 
-import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping
-    public List<ProductEntity> getAllProducts(){
-        return productService.getAllProducts();
-    }
+//    @GetMapping//check later
+//    public String getAllProducts(Model model){
+//        model.addAttribute("products", productService.getAllProducts());
+//        return "products";
+//    }
     @GetMapping("/{id}")
-    public ProductEntity getProduct(@PathVariable Long id){
-        return productService.getProductById(id);
+    public String getProduct(@PathVariable Long id, Model model){
+        try {
+            model.addAttribute("product", productService.getProductById(id));
+            return "product_details";
+        } catch (Exception e) {
+            throw new EntityNotFoundException(e);
+        }
     }
     @PostMapping
-    public ProductEntity createProduct(@RequestBody ProductEntity product){
-        return productService.saveProduct(product);
+    public String createProduct(@RequestBody ProductEntity product){
+        productService.saveProduct(product);
+        return "redirect:/products";
     }
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id){
+    @DeleteMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
+        return "redirect:/products";
     }
 
 }

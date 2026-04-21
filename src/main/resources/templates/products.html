@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fruit Store</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<h1>🍎 Fruit Store</h1>
+
+<form action="/products" method="post">
+    <input type="text" name="name" placeholder="Название" required>
+    <input type="number" name="price" placeholder="Цена" required>
+    <input type="number" name="quantity" placeholder="Количество" required>
+    <button type="submit">Добавить</button>
+</form>
+
+<div th:each="p : ${products}" class="product">
+    <span th:text="${p.name}"></span>
+    <span th:text="${p.price}"></span>
+    <span th:text="${p.quantity}"></span>
+
+    <a th:href="@{'/products/delete/' + ${p.id}}">❌</a>
+</div>
+
+</body>
+</html>
