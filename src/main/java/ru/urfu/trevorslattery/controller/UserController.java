@@ -2,11 +2,8 @@ package ru.urfu.trevorslattery.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.urfu.trevorslattery.entity.UserEntity;
-import ru.urfu.trevorslattery.enums.Role;
+import ru.urfu.trevorslattery.dto.UserDto;
 import ru.urfu.trevorslattery.service.UserService;
-
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -15,8 +12,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserEntity saveUser(@RequestBody UserEntity user){
-        return userService.saveUser(user);
+    public UserDto saveUser(@RequestBody UserDto userDto){
+        return userService.saveUser(userDto);
     }
 
     @DeleteMapping("/{id}")

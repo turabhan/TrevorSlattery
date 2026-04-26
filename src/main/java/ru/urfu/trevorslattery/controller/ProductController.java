@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.urfu.trevorslattery.dto.ProductDto;
 import ru.urfu.trevorslattery.entity.ProductEntity;
 import ru.urfu.trevorslattery.service.ProductService;
 
@@ -15,26 +16,21 @@ import ru.urfu.trevorslattery.service.ProductService;
 public class ProductController {
     private final ProductService productService;
 
-//    @GetMapping//check later
-//    public String getAllProducts(Model model){
-//        model.addAttribute("products", productService.getAllProducts());
-//        return "products";
-//    }
     @GetMapping("/{id}")
     public String getProduct(@PathVariable Long id, Model model){
-        try {
             model.addAttribute("product", productService.getProductById(id));
             return "product_details";
-        } catch (Exception e) {
-            throw new EntityNotFoundException(e);
-        }
     }
+
+
     @PostMapping
-    public String createProduct(@RequestBody ProductEntity product){
+    public String createProduct(@ModelAttribute ProductDto product){
         productService.saveProduct(product);
         return "redirect:/products";
     }
-    @DeleteMapping("/delete/{id}")
+
+
+    @PostMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
         return "redirect:/products";

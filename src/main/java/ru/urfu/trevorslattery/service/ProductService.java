@@ -1,34 +1,32 @@
 package ru.urfu.trevorslattery.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.urfu.trevorslattery.dto.ProductDto;
+import ru.urfu.trevorslattery.dto.mapping.ProductMapping;
 import ru.urfu.trevorslattery.entity.ProductEntity;
 import ru.urfu.trevorslattery.repository.ProductRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final TransactionLogService transactionLogService;
+    private final ProductMapping productMapping;
 
-//    public List<ProductEntity> getAllProducts(){
-//        return productRepository.findAll();
-//    }
-    public ProductEntity getProductById(Long id){
-        return productRepository.findById(id).orElseThrow();
+    public ProductDto getProductById(Long id){
+        ProductEntity productById = productRepository.findById(id).orElseThrow();
+
+        return productMapping.toDto(productById);
     }
-    public ProductEntity saveProduct(ProductEntity product){
-        ProductEntity saved = productRepository.save(product);
 
+    public ProductDto saveProduct(ProductDto dto){
+        ProductEntity product = productMapping.toEntity(dto);
+        ProductEntity savedProduct = productRepository.save(product);
         transactionLogService.log("CREATE PRODUCT", null,
-                "Product id="+saved.getId());
+                "Product id="+savedProduct.getId());
 
-        return saved;
-
-
+        return productMapping.toDto(savedProduct);
     }
 
     public void deleteProduct(Long id) {
@@ -37,6 +35,6 @@ public class ProductService {
         productRepository.delete(product);
 
         transactionLogService.log("DELETE PRODUCT", null,
-                "Product id" + id);
+                "Product id=" + id);
     }
 }
