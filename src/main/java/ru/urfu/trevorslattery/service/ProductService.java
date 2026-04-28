@@ -7,12 +7,21 @@ import ru.urfu.trevorslattery.dto.mapping.ProductMapping;
 import ru.urfu.trevorslattery.entity.ProductEntity;
 import ru.urfu.trevorslattery.repository.ProductRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final TransactionLogService transactionLogService;
     private final ProductMapping productMapping;
+
+    public List<ProductDto> getAllProducts(){
+        return productRepository.findAll()
+                .stream()
+                .map(productMapping::toDto)
+                .toList();
+    }
 
     public ProductDto getProductById(Long id){
         ProductEntity productById = productRepository.findById(id).orElseThrow();

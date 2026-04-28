@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои заказы</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>📦 Мои заказы</h2>
+
+    <div th:if="${#lists.isEmpty(orders)}">
+        <p>У вас пока нет заказов.</p>
+    </div>
+
+    <div th:each="order : ${orders}" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+        <h3>Заказ #<span th:text="${order.id}"></span></h3>
+        <p><strong>Дата:</strong> <span th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}"></span></p>
+        <p><strong>Статус:</strong> <span th:text="${order.status}">CREATED</span></p>
+
+        <ul>
+            <li th:each="item : ${order.items}">
+                <span th:text="${item.product.name}"></span> —
+                <span th:text="${item.quantity}"></span> шт. x
+                <span th:text="${item.price}"></span> руб.
+            </li>
+        </ul>
+    </div>
+
+    <a th:href="@{/products}">Вернуться в магазин</a>
+</div>
+
+</body>
+</html>

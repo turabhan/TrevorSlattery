@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход в систему</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f2f5; }
+        .login-container { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        .error { color: #d9534f; background: #f2dede; padding: 10px; border-radius: 4px; margin-bottom: 1rem; }
+        .logout { color: #3c763d; background: #dff0d8; padding: 10px; border-radius: 4px; margin-bottom: 1rem; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .links { margin-top: 1rem; text-align: center; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Вход</h2>
+
+    <div th:if="${param.error}" class="error">
+        Неверный email или пароль.
+    </div>
+
+    <div th:if="${param.logout}" class="logout">
+        Вы успешно вышли из системы.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <input type="text" name="username" placeholder="Email" required autofocus/>
+
+        <input type="password" name="password" placeholder="Пароль" required/>
+
+        <button type="submit">Войти</button>
+    </form>
+
+    <div class="links">
+        Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a>
+    </div>
+</div>
+
+</body>
+</html>

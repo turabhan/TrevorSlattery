@@ -6,6 +6,8 @@ import lombok.Setter;
 import ru.urfu.trevorslattery.enums.OrderStatus;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -23,4 +25,6 @@ public class OrderEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItemEntity> items = new ArrayList<>();
 }

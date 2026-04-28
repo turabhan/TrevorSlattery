@@ -2,6 +2,7 @@ package ru.urfu.trevorslattery.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.urfu.trevorslattery.dto.UserDto;
 import ru.urfu.trevorslattery.dto.mapping.UserMapping;
@@ -17,24 +18,25 @@ public class UserService {
     private final UserRepository userRepository;
     private final TransactionLogService transactionLogService;
     private final UserMapping userMapping;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserDto saveUser(UserDto dto){
-
         UserEntity user = userMapping.toEntity(dto);
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
-        user.setRole(Role.USER);
+        if (user.getId() == null && user.getRole() == null) {
+            user.setRole(Role.USER);
+        }
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
-
         UserEntity savedUser = userRepository.save(user);
+
         return userMapping.toDto(savedUser);
     }
     public void  removeUser(Long id){
         UserEntity user = userRepository.findById(id).orElseThrow();
 
         user.setDeleted(true);
-        user.setEmail(null);
+        user.setEmail("deleted_" + System.currentTimeMillis() + "_" + user.getEmail());
         user.setPassword(null);
         userRepository.save(user);
 

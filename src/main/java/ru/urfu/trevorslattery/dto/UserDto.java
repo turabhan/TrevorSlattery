@@ -1,12 +1,10 @@
 package ru.urfu.trevorslattery.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import ru.urfu.trevorslattery.enums.Role;
-
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Setter
@@ -14,11 +12,13 @@ import java.time.LocalDateTime;
 @Data
 public class UserDto {
     Long id;
-    String email;
-    String password; // временно
-    Boolean deleted = false;
 
-    @Enumerated(EnumType.STRING)
+    @Email
+    @NotBlank
+    String email;
+    @Size(min = 6)
+    String password;
+    Boolean deleted = false;
     Role role;
     LocalDateTime createdAt;
 }

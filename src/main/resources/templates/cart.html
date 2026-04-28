@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Корзина - Fruit Store</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f9f9f9; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    .cart-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .total { text-align: right; font-size: 1.2rem; font-weight: bold; margin-top: 20px; }
+    .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-checkout { background: #28a745; color: white; font-weight: bold; }
+    .btn-back { background: #6c757d; color: white; }
+  </style>
+</head>
+<body>
+<div class="header">
+  <h1>🛒 Ваша корзина</h1>
+  <a th:href="@{/products}" class="btn btn-back">Назад в магазин</a>
+</div>
+
+<div th:if="${#lists.isEmpty(cartItems)}">
+  <p>Тут пока пусто... Время купить фруктов!</p>
+</div>
+
+<div th:unless="${#lists.isEmpty(cartItems)}">
+  <div th:each="item : ${cartItems}" class="cart-item">
+    <div>
+      <strong th:text="${item.productName}">Фрукт</strong>
+      <div style="color: #666;">Количество: <span th:text="${item.quantity}">1</span></div>
+    </div>
+    <div>
+      <span th:text="${item.price}">0</span> руб.
+    </div>
+  </div>
+
+  <form th:action="@{/checkout}" method="post" style="text-align: right; margin-top: 30px;">
+    <button type="submit" class="btn btn-checkout">Оформить заказ</button>
+  </form>
+</div>
+</body>
+</html>

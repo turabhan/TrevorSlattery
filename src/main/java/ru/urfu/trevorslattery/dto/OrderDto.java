@@ -1,9 +1,5 @@
 package ru.urfu.trevorslattery.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,9 +14,6 @@ import java.time.LocalDateTime;
 public class OrderDto {
     Long id;
     LocalDateTime createdAt;
-    @Enumerated(EnumType.STRING)
     OrderStatus status;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     UserEntity user;
 }

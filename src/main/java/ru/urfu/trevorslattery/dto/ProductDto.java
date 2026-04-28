@@ -1,7 +1,5 @@
 package ru.urfu.trevorslattery.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +16,5 @@ public class ProductDto {
     String description;
     BigDecimal price;
     Integer quantity;
-
-    @Enumerated(EnumType.STRING)
     ProductCategory category;
 }

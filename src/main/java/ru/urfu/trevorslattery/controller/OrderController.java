@@ -13,17 +13,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-
-//    @GetMapping
-//    public List<OrderDto> getAll(){
-//        return orderService.getOrders();
-//    }
     @PostMapping
     public OrderDto saveOrder(@RequestBody OrderDto order){
         return orderService.createOrder(order);
     }
     @GetMapping("/{id}")
-    public OrderDto findOrderById(@RequestBody Long id){
+    public OrderDto findOrderById(@PathVariable Long id){
         return orderService.getOrderById(id);
     }
 }

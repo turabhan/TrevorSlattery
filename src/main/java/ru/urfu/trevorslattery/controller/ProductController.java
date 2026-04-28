@@ -1,12 +1,10 @@
 package ru.urfu.trevorslattery.controller;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.urfu.trevorslattery.dto.ProductDto;
-import ru.urfu.trevorslattery.entity.ProductEntity;
 import ru.urfu.trevorslattery.service.ProductService;
 
 
@@ -15,6 +13,12 @@ import ru.urfu.trevorslattery.service.ProductService;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+
+    @GetMapping
+    public String getAllProducts(Model model){
+        model.addAttribute("products", productService.getAllProducts());
+        return "products";
+    }
 
     @GetMapping("/{id}")
     public String getProduct(@PathVariable Long id, Model model){

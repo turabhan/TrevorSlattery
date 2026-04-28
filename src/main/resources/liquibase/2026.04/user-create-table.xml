@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="20260328-1" author="trevor">
+        <createTable tableName="user_entity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValue="false"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="now()"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20260328-2" author="trevor">
+        <insert tableName="user_entity">
+            <column name="email" value="admin@admin.com"/>
+            <column name="password" value="$2a$12$QzhUWXmyz4Or2pTqXxVD4u7TdAOrln3k/wBvY40.mvgeN1olnxsYq"/>
+            <column name="role" value="ADMIN"/>
+            <column name="deleted" value="false"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

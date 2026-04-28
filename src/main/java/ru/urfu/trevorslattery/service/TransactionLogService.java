@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.urfu.trevorslattery.entity.TransactionLogEntity;
 import ru.urfu.trevorslattery.repository.TransactionLogRepository;
+
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class TransactionLogService{
@@ -14,6 +17,7 @@ public class TransactionLogService{
         log.setAction(action);
         log.setUserId(userId);
         log.setDetails(details);
+        log.setTimestamp(LocalDateTime.now());
 
         transactionLogRepository.save(log);
     }
